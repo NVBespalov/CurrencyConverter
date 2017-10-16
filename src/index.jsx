@@ -11,8 +11,8 @@ const store = configureStore()
 
 const ExchangeContainer = asyncComponent({
   resolve: () => System.import('containers/Exchange'),
-  LoadingComponent: () => <PageIsLoading />,
-  ErrorComponent: ({ error }) => <PageLoadError error={error} />
+  LoadingComponent: () => <div>Component is Loading</div>,
+  ErrorComponent: ({ error }) => <div className='page-error'>{error}</div>
 })
 
 
