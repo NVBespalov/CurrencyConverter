@@ -74,6 +74,7 @@ module.exports = {
     js: jsEntry,
     vendor: [
       'react',
+      'ramda',
       'react-router-dom',
       'react-dom',
       'react-redux',
