@@ -3,9 +3,11 @@
  */
 import { combineReducers } from 'redux'
 import exchangePage from './EchangePage'
+import valet from './Valet'
 
 const appReducer = combineReducers({
-  exchangePage
+  exchangePage,
+  valet
 })
 
 

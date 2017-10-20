@@ -67,6 +67,11 @@ if (isProd) {
   );
 }
 
+const stylesLoader = [
+  `css-loader?modules&importLoaders=1&localIdentName=[path]_[local]`,
+  'stylus-loader'
+]
+
 module.exports = {
   devtool: isProd ? 'source-map' : 'cheap-module-source-map',
   context: sourcePath,
@@ -114,6 +119,7 @@ module.exports = {
           }
         ]
       },
+      { test: /\.styl$/, exclude: /node_modules/, use: ['style-loader'].concat(stylesLoader) },
       {
         test: /\.(gif|png|jpg|jpeg\ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         use: 'file-loader'
