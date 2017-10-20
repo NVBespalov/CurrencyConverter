@@ -19,7 +19,7 @@ const fetchCurrencies = () => axios({
   adapter: jsonpAdapter
 })
 
-@connect(({ exchangePage }, props) => ({ ...exchangePage }), {
+@connect(({ exchangePage, valet: { accounts } }, props) => ({ ...exchangePage, accounts }), {
   setRates,
   setCurrencies
 })

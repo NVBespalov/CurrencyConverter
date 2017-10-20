@@ -10,7 +10,7 @@ import './styles/general.scss'
 const store = configureStore()
 
 const ExchangeContainer = asyncComponent({
-  resolve: () => System.import('containers/Exchange'),
+  resolve: () => System.import('containers/ExchangePage'),
   LoadingComponent: () => <div>Component is Loading</div>,
   ErrorComponent: ({ error }) => <div className='page-error'>{error}</div>
 })
