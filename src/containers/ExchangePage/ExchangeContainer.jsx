@@ -1,21 +1,35 @@
 import React, { PureComponent } from 'react'
 import { Observable } from 'rxjs'
-import ExchangeRatesPageComponentSchema from 'schemas/ExchangeRatesPage'
+import { keys, compose, pathOr } from 'ramda'
+import ExchangeRatesPageComponentSchema from 'schemas/ExchangeRatesPageSchema'
 import axios from 'axios'
 import ExchangeRatesPage from 'components/ExchangeRatesPage'
 import jsonpAdapter from 'axios-jsonp'
 import { connect } from 'react-redux'
-import { setRates, setCurrencies } from 'reducers/EchangePage'
+import { reduxForm } from 'redux-form'
+import { setRates, setCurrencies, setAmount } from 'reducers/EchangePage'
 
 const fetchRates = ({ base }) => axios({
   url: `https://api.fixer.io/latest?base=${base}`,
   adapter: jsonpAdapter
 })
 
+
 @connect(({ exchangePage, valet: { accounts } }, props) => ({ ...exchangePage, accounts }), {
   setRates,
-  setCurrencies
+  setCurrencies,
+  setAmount
 })
+@reduxForm(
+  {
+    form: 'exchange',
+    onSubmit: () => {
+      console.log('implement me')
+    },
+    onChange: ({ amount }, _, { setAmount }) => setAmount(parseInt(amount, 10) || 0),
+    fields: ['amount']
+  }
+)
 class ExchangeContainer extends PureComponent {
 
   static defaultProps = ExchangeRatesPageComponentSchema.defaultProps
@@ -24,17 +38,17 @@ class ExchangeContainer extends PureComponent {
 
   componentWillMount() {
     const { setRates, setCurrencies, base } = this.props
-    Observable
-      .fromPromise(fetchRates({ base: 'USD' }))
-      .map(res => res.data)
-      .subscribe(setCurrencies)
 
     fetchRates({ base })
+      .then(compose(setRates, pathOr({}, ['data', 'rates'])))
+      .then(compose(setCurrencies, keys, pathOr({}, ['data', 'rates'])))
 
-    this.poll$ = Observable.interval(10000)
-      .flatMap(() => fetchRates({ base }))
+    this.poll$ = Observable
+      .interval(10000)
+      .flatMap(() => Observable.fromPromise(fetchRates({ base })))
       .map(res => res.data)
       .map(data => data.rates)
+      .do(compose(setCurrencies, keys))
       .subscribe(setRates)
   }
 

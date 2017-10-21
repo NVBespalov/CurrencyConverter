@@ -32,6 +32,7 @@
     "redux": "^3.7.2",
     "redux-act": "^1.4.1",
     "redux-async-connect": "^1.0.0-rc4",
+    "redux-form": "^7.1.1",
     "redux-logger": "^3.0.1",
     "redux-loop": "^4.2.1",
     "redux-thunk": "^2.2.0",
