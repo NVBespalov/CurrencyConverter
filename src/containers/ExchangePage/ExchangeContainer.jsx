@@ -7,15 +7,8 @@ import jsonpAdapter from 'axios-jsonp'
 import { connect } from 'react-redux'
 import { setRates, setCurrencies } from 'reducers/EchangePage'
 
-const API_ID = '0ef144f7bde04230a918803ce8a0e50f'
-
 const fetchRates = ({ base }) => axios({
-  url: `https://openexchangerates.org/api/latest.json?app_id=${API_ID}&base=${base}`,
-  adapter: jsonpAdapter
-})
-
-const fetchCurrencies = () => axios({
-  url: 'https://openexchangerates.org/api/currencies.json?app_id=0ef144f7bde04230a918803ce8a0e50f',
+  url: `https://api.fixer.io/latest?base=${base}`,
   adapter: jsonpAdapter
 })
 
@@ -32,7 +25,7 @@ class ExchangeContainer extends PureComponent {
   componentWillMount() {
     const { setRates, setCurrencies, base } = this.props
     Observable
-      .fromPromise(fetchCurrencies())
+      .fromPromise(fetchRates({ base: 'USD' }))
       .map(res => res.data)
       .subscribe(setCurrencies)
 

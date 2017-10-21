@@ -1,17 +1,19 @@
 import React, { PureComponent } from 'react'
 import styles from './ExchangeFrom.styl'
+import baseStyles from '../../styles/base.styl'
+import cx from 'classnames'
 
 export default class extends PureComponent {
   render() {
     return (
-      <div className='ExchangeFrom'>
+      <div className={baseStyles.container}>
         <div className={styles.leftColumn}>
-          <span>GBP</span>
-          <span>You Have f100</span>
+          <div className={cx(baseStyles.column, baseStyles.center)}>
+            <span>GBP</span>
+            <span>You Have f100</span></div>
         </div>
         <div className={styles.rightColumn}>
-          <span>GBP</span>
-          <span>You Have f100</span>
+          <input className={styles.amount} />
         </div>
       </div>
     )
