@@ -17,6 +17,7 @@
     "axios": "^0.16.2",
     "axios-jsonp": "^1.0.1",
     "classnames": "^2.2.5",
+    "currency-symbol-map": "^4.0.3",
     "extend": "latest",
     "lodash": "^4.17.4",
     "material-design-icons-iconfont": "^3.0.3",

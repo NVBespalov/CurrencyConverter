@@ -1,7 +1,10 @@
 import { createAction, createReducer } from 'redux-act'
 
 const initialState = {
-  rates: {}
+  rates: {},
+  accounts: {},
+  base: 'GBP',
+  to: 'USD'
 }
 export const setRates = createAction('Revolut/exchange/SET_RATES')
 export const setCurrencies = createAction('Revolut/exchange/SET_CURRENCIES')

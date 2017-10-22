@@ -4,12 +4,12 @@
 import { combineReducers } from 'redux'
 import { reducer as form } from 'redux-form'
 import exchangePage from './EchangePage'
-import valet from './Valet'
+import wallet from './Wallet'
 
 const appReducer = combineReducers({
   exchangePage,
   form,
-  valet
+  wallet
 })
 
 

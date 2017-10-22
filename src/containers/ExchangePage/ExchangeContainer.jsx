@@ -15,7 +15,7 @@ const fetchRates = ({ base }) => axios({
 })
 
 
-@connect(({ exchangePage, valet: { accounts } }, props) => ({ ...exchangePage, accounts }), {
+@connect(({ exchangePage, wallet: { accounts } }, props) => ({ ...exchangePage, accounts }), {
   setRates,
   setCurrencies,
   setAmount
