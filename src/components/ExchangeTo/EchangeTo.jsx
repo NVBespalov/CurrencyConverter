@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
-import cx from 'classnames'
 import { defaultProps, propTypes } from 'schemas/ExchangeToSchema'
-import baseStyles from '../../styles/base.styl'
+import AccountBalance from 'components/AccountBalance'
+import cx from 'classnames'
+import baseStyles from 'styles/base.styl'
 import styles from './ExchangeTo.styl'
 
 export default class extends PureComponent {
@@ -11,12 +12,9 @@ export default class extends PureComponent {
   render() {
 
     return (
-      <div className={baseStyles.container}>
+      <div className={cx(baseStyles.container, styles.container)}>
         <div className={styles.leftColumn}>
-          <div className={cx(baseStyles.column, baseStyles.center)}>
-            <span>{this.props.currency}</span>
-            <span>You Have {this.props.balance}</span>
-          </div>
+          <AccountBalance currency={this.props.currency} balance={this.props.balance}/>
         </div>
         <div className={styles.rightColumn}>
           <span>{this.props.amount * this.props.rate}</span>
