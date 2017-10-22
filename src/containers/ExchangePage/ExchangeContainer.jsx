@@ -24,7 +24,7 @@ const fetchRates = ({ base }) => axios({
   {
     form: 'exchange',
     onSubmit: () => {
-      console.log('implement me')
+
     },
     onChange: ({ amount }, _, { setAmount }) => setAmount(parseInt(amount, 10) || 0),
     fields: ['amount']
