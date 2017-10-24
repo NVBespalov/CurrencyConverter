@@ -19,6 +19,7 @@ export default class extends PureComponent {
           <AccountBalance currency={this.props.currency} balance={this.props.balance} />
         </div>
         <div className={styles.rightColumn}>
+          {this.props.amount > 0 && '-'}
           <Field
             name='amount'
             className={styles.amount}

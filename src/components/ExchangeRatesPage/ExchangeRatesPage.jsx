@@ -24,7 +24,7 @@ export default class extends PureComponent {
           <CurrenciesPairsSelector base={base} to={to} rate={rate}/>
           <button onClick={handleSubmit} disabled={disabled}>Exchange</button>
         </NavBar>
-        <ExchangeFrom currency={base} balance={propOr(0, base, accounts)} />
+        <ExchangeFrom amount={amount} currency={base} balance={propOr(0, base, accounts)} />
         <ExchangeTo currency={to} base={base} balance={propOr(0, to, accounts)} amount={amount} rate={rate} />
       </div>
     )

@@ -14,13 +14,14 @@ export default class extends PureComponent {
   render() {
 
     const { currency , balance, amount, rate, base} = this.props;
+    const convertedAmount = convertTo(amount, rate);
     return (
       <div className={cx(baseStyles.container, styles.container)}>
         <div className={styles.leftColumn}>
           <AccountBalance currency={currency} balance={balance} />
         </div>
         <div className={styles.rightColumn}>
-          <span>{convertTo(amount, rate)}</span>
+          <div>{convertedAmount > 0 && '+'}<span>{convertedAmount !== 0 ? convertedAmount : null}</span></div>
           <span className={styles.backConvert}>{getSymbolFromCurrency(currency)}1 = {getSymbolFromCurrency(base)} {convertFrom(1, rate)}</span>
         </div>
 
