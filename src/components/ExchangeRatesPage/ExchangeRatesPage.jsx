@@ -13,19 +13,21 @@ export default class extends PureComponent {
   static propTypes = ExchangeRatesPageComponentSchema.propTypes
 
   render() {
-    const { rates, handleSubmit, amount, accounts, base, to, submitting, pristine } = this.props
+    const { rate, handleSubmit, amount, base, to, submitting, pristine, convertedTo, perOneConvertedFrom, balanceBase, balanceTo } = this.props
     const disabled = pristine || submitting || amount === 0
-    const rate = propOr(0, to, rates)
 
     return (
       <div className={styles.container}>
         <NavBar>
-          <button>cancel</button>
-          <CurrenciesPairsSelector base={base} to={to} rate={rate}/>
-          <button onClick={handleSubmit} disabled={disabled}>Exchange</button>
+          <button className={styles.flatButton} >cancel</button>
+          <CurrenciesPairsSelector base={base} to={to} rate={rate} />
+          <button onClick={handleSubmit} disabled={disabled} className={styles.flatButton}>Exchange</button>
         </NavBar>
-        <ExchangeFrom amount={amount} currency={base} balance={propOr(0, base, accounts)} />
-        <ExchangeTo currency={to} base={base} balance={propOr(0, to, accounts)} amount={amount} rate={rate} />
+        <ExchangeFrom amount={amount} currency={base} balance={balanceBase} />
+        <ExchangeTo
+          currency={to} base={base} balance={balanceTo} convertedTo={convertedTo}
+          perOneConvertedFrom={perOneConvertedFrom}
+        />
       </div>
     )
   }

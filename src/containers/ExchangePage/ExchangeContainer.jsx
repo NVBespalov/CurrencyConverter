@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react'
 import { Observable } from 'rxjs'
-import { keys, compose, pathOr } from 'ramda'
+import { keys, compose, pathOr, propOr, prop } from 'ramda'
 import ExchangeRatesPageComponentSchema from 'schemas/ExchangeRatesPageSchema'
 import axios from 'axios'
 import ExchangeRatesPage from 'components/ExchangeRatesPage'
 import jsonpAdapter from 'axios-jsonp'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import { setRates, setCurrencies, setAmount } from 'reducers/EchangePage'
+import { setAccount } from 'reducers/Wallet'
+import { convertTo, convertFrom } from 'helpers/money'
 
 const fetchRates = ({ base }) => axios({
   url: `https://api.fixer.io/latest?base=${base}`,
@@ -15,16 +17,31 @@ const fetchRates = ({ base }) => axios({
 })
 
 
-@connect(({ exchangePage, wallet: { accounts } }, props) => ({ ...exchangePage, accounts }), {
+@connect(({ exchangePage, exchangePage: { amount, to, base, rates }, wallet: { accounts } }, props) => ({
+  ...exchangePage,
+  rate: propOr(0, to, rates),
+  convertedTo: convertTo(amount, propOr(0, to, rates)) || null,
+  perOneConvertedFrom: convertFrom(1, prop(to, rates)) || null,
+  balanceBase: propOr(0, base, accounts),
+  balanceTo: propOr(0, to, accounts),
+  accounts
+}), {
   setRates,
   setCurrencies,
-  setAmount
+  setAmount,
+  setAccount
 })
 @reduxForm(
   {
     form: 'exchange',
-    onSubmit: () => {
+    onSubmit: ({}, dispatch, { base, amount, setAccount, to, convertedTo, balanceBase, balanceTo }) => {
+      setAccount({ [base]: balanceBase - amount })
+      setAccount({ [to]: balanceTo + convertedTo })
+      dispatch(reset('exchange'))
 
+    },
+    initialValues: {
+      amount: 0
     },
     onChange: ({ amount }, _, { setAmount }) => setAmount(parseInt(amount, 10) || 0),
     fields: ['amount']
